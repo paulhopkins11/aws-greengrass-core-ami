@@ -4,17 +4,17 @@ This project builds a simple ami from Amazon Linux and installs AWS Greengrass C
 
 This is built using [packer.io](https://www.packer.io/). First step is to validate:
 
-```
+```zsh
 $ packer validate template.json
 Template validated successfully.
 ```
 Next is the build:
-```
+```zsh
 $ packer build --var 'aws_profile=<YOUR_AWS_PROFILE>' template.json
 ...
 ```
 *OPTIONS:* You can also choose to include these variable overrides
-```
+```zsh
 --var 'aws_ami_name=<YOUR_AWS_AMI_NAME>'
 --var 'aws_region=<YOUR_AWS_REGION>'
 --var 'source_ami_id=<YOUR_AWS_AMI>'
@@ -28,7 +28,7 @@ Once you start and EC/2 instance from this AMI you need to perform some setup st
 
 1. Create your Core Certificates
 
-```
+```zsh
 mkdir certs/
 echo Core Certificate ARN = $(aws iot create-keys-and-certificate \
     --profile <YOUR_AWS_PROFILE> \
@@ -40,31 +40,31 @@ echo Core Certificate ARN = $(aws iot create-keys-and-certificate \
 ```
 2. Copy your core certs to your EC2 instance
 
-```
+```zsh
 scp -i <YOUR_PEM>.pem certs/core* ec2-user@<YOUR_PUBLIC_DNS_NAME>:~/
 ```
 
 3. SSH into your EC2
 
-```
+```zsh
 ssh -i <YOUR_PEM>.pem certs/core* ec2-user@<YOUR_PUBLIC_DNS_NAME>
 ```
 
 4. Move your core certs into the Greengrass certs directory
 
-```
+```zsh
 sudo cp ~/core* /greengrass/certs
 ```
 
 5. Update the Greengrass config
 
-```
+```zsh
 sudo vi /greengrass/config/config.json
 ```
 
 6. Start the Greengrass core
 
-```
+```zsh
 cd /greengrass/ggc/core/
 sudo ./greengrassd start
 # Tail the server log
