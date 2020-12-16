@@ -26,7 +26,7 @@ $ packer build --var 'aws_profile=<YOUR_AWS_PROFILE>' template.json
 
 Once you start and EC/2 instance from this AMI you need to perform some setup steps:
 
-1. Create your Core Certificates
+### 1. Create your Core Certificates
 
 ```zsh
 mkdir certs/
@@ -38,31 +38,31 @@ echo Core Certificate ARN = $(aws iot create-keys-and-certificate \
     --public-key-outfile certs/core.public.key \
     --private-key-outfile certs/core.private.key | jq '.certificateArn' -r)
 ```
-2. Copy your core certs to your EC2 instance
+### 2. Copy your core certs to your EC2 instance
 
 ```zsh
 scp -i <YOUR_PEM>.pem certs/core* ec2-user@<YOUR_PUBLIC_DNS_NAME>:~/
 ```
 
-3. SSH into your EC2
+### 3. SSH into your EC2
 
 ```zsh
 ssh -i <YOUR_PEM>.pem certs/core* ec2-user@<YOUR_PUBLIC_DNS_NAME>
 ```
 
-4. Move your core certs into the Greengrass certs directory
+### 4. Move your core certs into the Greengrass certs directory
 
 ```zsh
 sudo cp ~/core* /greengrass/certs
 ```
 
-5. Update the Greengrass config
+### 5. Update the Greengrass config
 
 ```zsh
 sudo vi /greengrass/config/config.json
 ```
 
-6. Start the Greengrass core
+### 6. Start the Greengrass core
 
 ```zsh
 cd /greengrass/ggc/core/
@@ -72,6 +72,6 @@ sudo tail -f /greengrass/ggc/var/log/system/runtime.log
 ```
 The logs should show your core successfully connecting
 
-7. Deploy your Group in the AWS Console
+### 7. Deploy your Group in the AWS Console
 
 You should see this complete successfully and also see log messages appear in the core logs
