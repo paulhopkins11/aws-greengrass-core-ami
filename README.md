@@ -1,10 +1,8 @@
-# aws-greengrass-core-ami
-
 This project builds a simple ami from Amazon Linux and installs AWS Greengrass Core V1:
 
 ## Building
 
-This is built using packer.io. First step is to validate:
+This is built using [packer.io](https://www.packer.io/). First step is to validate:
 
 ```
 $ packer validate template.json
