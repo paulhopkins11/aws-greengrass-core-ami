@@ -1,0 +1,39 @@
+{
+    "_comment": "eu-west-2 - Amazon Linux 2 AMI 2.0.20200917.0 x86_64 HVM gp2 - ami-08b993f76f42c3e2f",
+    "variables": {
+        "aws_profile": "",
+        "aws_region": "eu-west-2",
+        "source_ami_id": "ami-08b993f76f42c3e2f",
+        "aws_ami_name": "greengrass core v1 ec2 {{timestamp}}",
+        "architecture": "amazon-linux"
+    },
+    "builders": [
+        {
+            "type": "amazon-ebs",
+            "profile": "{{user `aws_profile`}}",
+            "region": "{{user `aws_region`}}",
+            "source_ami": "{{user `source_ami_id`}}",
+            "instance_type": "t2.micro",
+            "ssh_username": "ec2-user",
+            "ami_name": "{{user `aws_ami_name`}}",
+            "user_data_file": "{{template_dir}}/files/user_data.sh"
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "shell",
+            "script": "{{template_dir}}/files/greengrass_core_v1.sh"
+        },
+        {
+            "type": "file",
+            "source": "{{template_dir}}/files/",
+            "destination": "/home/ec2-user/"
+        },
+        {
+            "type": "shell",
+            "inline": [
+                "chmod +x /home/ec2-user/*.sh"
+            ]
+        }
+    ]
+}
